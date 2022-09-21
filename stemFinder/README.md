@@ -42,10 +42,9 @@ source("./R/compute_performance.R")
 
 #### Query data must have two metadata columns: Phenotype (string of cell type annotations) and Ground\_truth (numeric, ground truth potency values)
 
-``` r
 [Query data available on S3](https://s3.console.aws.amazon.com/s3/object/cahanlab/kathleen.noller/stemFinder/Mouse10X_BoneMarrow_GSE109774_stemFinder.rds?region=us-east-1&tab=overview )
 
-#adata = readRDS("./data/Mouse10X_BoneMarrow_GSE109774_stemFinder.rds")
+``` r
 DimPlot(adata, group.by = 'Phenotype')
 ```
 
