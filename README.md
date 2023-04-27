@@ -49,6 +49,7 @@ head(adata,2)
 ```r
 #PCA
 adata <- RunPCA(adata, verbose = F)
+p1 <- ElbowPlot(adata, ndims = 50)
 ```
 
 <img src="figure/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
@@ -198,7 +199,18 @@ print(list_all_withcomp)
 ## Visualize single-cell potency scores 
 
 ##### UMAP embedding
-<img src="figure/unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
+
+
+```r
+p2 <- FeaturePlot(adata, features = c('Ground_truth','stemFinder_invert','CytoTRACE_invert','ccat_invert'), cols = c('blue','red'), ncol = 2)
+```
+
+<img src="figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
 ##### Box plot of stemFinder score
-<img src="figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
+
+```r
+p3 <- ggplot(adata@meta.data, aes(x = Ground_truth, y = stemFinder_invert)) + geom_point() + geom_boxplot(aes(group = Ground_truth, color = Ground_truth)) + theme_bw() + ggtitle("Inverted stemFinder potency vs. Ground truth potency") + ylab("Inverted stemFinder potency") + xlab("Ground truth potency")
+```
+
+<img src="figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
