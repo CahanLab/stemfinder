@@ -33,12 +33,15 @@ head(adata,2)
 ```
 
 ```
-##                            orig.ident nCount_RNA nFeature_RNA            Phenotype
-## X10X_P7_3_AAACCTGAGCATCATC       X10X      12994         3468 Monocyte_progenitors
-## X10X_P7_3_AAACCTGCAGAGTGTG       X10X       5437         1764            Monocytes
-##                            Ground_truth percent.mt percent.ribo    S.Score  G2M.Score Phase
-## X10X_P7_3_AAACCTGAGCATCATC            2          0     22.62583  0.3360127  0.3821197   G2M
-## X10X_P7_3_AAACCTGCAGAGTGTG            3          0     24.03899 -0.1894597 -0.3641231    G1
+##                            orig.ident nCount_RNA nFeature_RNA
+## X10X_P7_3_AAACCTGAGCATCATC       X10X      12994         3468
+## X10X_P7_3_AAACCTGCAGAGTGTG       X10X       5437         1764
+##                                       Phenotype Ground_truth percent.mt
+## X10X_P7_3_AAACCTGAGCATCATC Monocyte_progenitors            2          0
+## X10X_P7_3_AAACCTGCAGAGTGTG            Monocytes            3          0
+##                            percent.ribo    S.Score  G2M.Score Phase
+## X10X_P7_3_AAACCTGAGCATCATC     22.62583  0.3360127  0.3821197   G2M
+## X10X_P7_3_AAACCTGCAGAGTGTG     24.03899 -0.1894597 -0.3641231    G1
 ```
 
 <img src="figure/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
@@ -53,6 +56,7 @@ p1 <- ElbowPlot(adata, ndims = 50)
 ```
 
 <img src="figure/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+[Elbow plot](https://github.com/pcahan1/stemfinder/blob/main/figures/unnamed-chunk-5-1.png)
 
 
 ```r
@@ -73,39 +77,61 @@ head(adata)
 ```
 
 ```
-##                            orig.ident nCount_RNA nFeature_RNA               Phenotype
-## X10X_P7_3_AAACCTGAGCATCATC       X10X      12994         3468    Monocyte_progenitors
-## X10X_P7_3_AAACCTGCAGAGTGTG       X10X       5437         1764               Monocytes
-## X10X_P7_3_AAACCTGGTCGAACAG       X10X       4466         1526    Monocyte_progenitors
-## X10X_P7_3_AAACCTGTCACTTCAT       X10X      23852         4043        Stem_Progenitors
-## X10X_P7_3_AAACGGGAGAAGGTTT       X10X       4375          977            Granulocytes
-## X10X_P7_3_AAACGGGAGTAGTGCG       X10X       5451         1644               Monocytes
-## X10X_P7_3_AAACGGGCACGACTCG       X10X      30906         3836 Granulocyte_progenitors
-## X10X_P7_3_AAACGGGGTAGCACGA       X10X       6076         1940               Monocytes
-## X10X_P7_3_AAAGATGCACTCGACG       X10X       8027         2981              Immature_B
-## X10X_P7_3_AAAGATGCATGGATGG       X10X       6458         1487 Granulocyte_progenitors
-##                            Ground_truth percent.mt percent.ribo     S.Score  G2M.Score Phase
-## X10X_P7_3_AAACCTGAGCATCATC            2          0    22.625827  0.33601275  0.3821197   G2M
-## X10X_P7_3_AAACCTGCAGAGTGTG            3          0    24.038992 -0.18945969 -0.3641231    G1
-## X10X_P7_3_AAACCTGGTCGAACAG            2          0    33.631885  0.30172632 -0.1413534     S
-## X10X_P7_3_AAACCTGTCACTTCAT            1          0    33.104142 -0.01163238 -0.3062905    G1
-## X10X_P7_3_AAACGGGAGAAGGTTT            3          0     2.537143 -0.15402552 -0.1239491    G1
-## X10X_P7_3_AAACGGGAGTAGTGCG            3          0    30.544854 -0.21395371 -0.3532216    G1
-## X10X_P7_3_AAACGGGCACGACTCG            2          0    12.738627  0.02354409  0.4392959   G2M
-## X10X_P7_3_AAACGGGGTAGCACGA            3          0    22.728769 -0.22305128 -0.3560751    G1
-## X10X_P7_3_AAAGATGCACTCGACG            2          0    11.847515  0.44817941  0.9243623   G2M
-## X10X_P7_3_AAAGATGCATGGATGG            2          0     7.742335  0.27757475  0.1743533     S
-##                            stemFinder stemFinder_invert stemFinder_comp
-## X10X_P7_3_AAACCTGAGCATCATC  17.450357         0.1417314      0.18967779
-## X10X_P7_3_AAACCTGCAGAGTGTG   5.141795         0.7471088      0.05588908
-## X10X_P7_3_AAACCTGGTCGAACAG  15.401308         0.2425106      0.16740552
-## X10X_P7_3_AAACCTGTCACTTCAT  18.712842         0.0796380      0.20340045
-## X10X_P7_3_AAACGGGAGAAGGTTT   2.988407         0.8530199      0.03248268
-## X10X_P7_3_AAACGGGAGTAGTGCG   3.719679         0.8170534      0.04043129
-## X10X_P7_3_AAACGGGCACGACTCG  15.128716         0.2559177      0.16444256
-## X10X_P7_3_AAACGGGGTAGCACGA   4.770214         0.7653844      0.05185015
-## X10X_P7_3_AAAGATGCACTCGACG  13.028835         0.3591970      0.14161777
-## X10X_P7_3_AAAGATGCATGGATGG  17.371581         0.1456058      0.18882154
+##                            orig.ident nCount_RNA nFeature_RNA
+## X10X_P7_3_AAACCTGAGCATCATC       X10X      12994         3468
+## X10X_P7_3_AAACCTGCAGAGTGTG       X10X       5437         1764
+## X10X_P7_3_AAACCTGGTCGAACAG       X10X       4466         1526
+## X10X_P7_3_AAACCTGTCACTTCAT       X10X      23852         4043
+## X10X_P7_3_AAACGGGAGAAGGTTT       X10X       4375          977
+## X10X_P7_3_AAACGGGAGTAGTGCG       X10X       5451         1644
+## X10X_P7_3_AAACGGGCACGACTCG       X10X      30906         3836
+## X10X_P7_3_AAACGGGGTAGCACGA       X10X       6076         1940
+## X10X_P7_3_AAAGATGCACTCGACG       X10X       8027         2981
+## X10X_P7_3_AAAGATGCATGGATGG       X10X       6458         1487
+##                                          Phenotype Ground_truth
+## X10X_P7_3_AAACCTGAGCATCATC    Monocyte_progenitors            2
+## X10X_P7_3_AAACCTGCAGAGTGTG               Monocytes            3
+## X10X_P7_3_AAACCTGGTCGAACAG    Monocyte_progenitors            2
+## X10X_P7_3_AAACCTGTCACTTCAT        Stem_Progenitors            1
+## X10X_P7_3_AAACGGGAGAAGGTTT            Granulocytes            3
+## X10X_P7_3_AAACGGGAGTAGTGCG               Monocytes            3
+## X10X_P7_3_AAACGGGCACGACTCG Granulocyte_progenitors            2
+## X10X_P7_3_AAACGGGGTAGCACGA               Monocytes            3
+## X10X_P7_3_AAAGATGCACTCGACG              Immature_B            2
+## X10X_P7_3_AAAGATGCATGGATGG Granulocyte_progenitors            2
+##                            percent.mt percent.ribo     S.Score  G2M.Score
+## X10X_P7_3_AAACCTGAGCATCATC          0    22.625827  0.33601275  0.3821197
+## X10X_P7_3_AAACCTGCAGAGTGTG          0    24.038992 -0.18945969 -0.3641231
+## X10X_P7_3_AAACCTGGTCGAACAG          0    33.631885  0.30172632 -0.1413534
+## X10X_P7_3_AAACCTGTCACTTCAT          0    33.104142 -0.01163238 -0.3062905
+## X10X_P7_3_AAACGGGAGAAGGTTT          0     2.537143 -0.15402552 -0.1239491
+## X10X_P7_3_AAACGGGAGTAGTGCG          0    30.544854 -0.21395371 -0.3532216
+## X10X_P7_3_AAACGGGCACGACTCG          0    12.738627  0.02354409  0.4392959
+## X10X_P7_3_AAACGGGGTAGCACGA          0    22.728769 -0.22305128 -0.3560751
+## X10X_P7_3_AAAGATGCACTCGACG          0    11.847515  0.44817941  0.9243623
+## X10X_P7_3_AAAGATGCATGGATGG          0     7.742335  0.27757475  0.1743533
+##                            Phase stemFinder stemFinder_invert
+## X10X_P7_3_AAACCTGAGCATCATC   G2M  17.450357         0.1417314
+## X10X_P7_3_AAACCTGCAGAGTGTG    G1   5.141795         0.7471088
+## X10X_P7_3_AAACCTGGTCGAACAG     S  15.401308         0.2425106
+## X10X_P7_3_AAACCTGTCACTTCAT    G1  18.712842         0.0796380
+## X10X_P7_3_AAACGGGAGAAGGTTT    G1   2.988407         0.8530199
+## X10X_P7_3_AAACGGGAGTAGTGCG    G1   3.719679         0.8170534
+## X10X_P7_3_AAACGGGCACGACTCG   G2M  15.128716         0.2559177
+## X10X_P7_3_AAACGGGGTAGCACGA    G1   4.770214         0.7653844
+## X10X_P7_3_AAAGATGCACTCGACG   G2M  13.028835         0.3591970
+## X10X_P7_3_AAAGATGCATGGATGG     S  17.371581         0.1456058
+##                            stemFinder_comp
+## X10X_P7_3_AAACCTGAGCATCATC      0.18967779
+## X10X_P7_3_AAACCTGCAGAGTGTG      0.05588908
+## X10X_P7_3_AAACCTGGTCGAACAG      0.16740552
+## X10X_P7_3_AAACCTGTCACTTCAT      0.20340045
+## X10X_P7_3_AAACGGGAGAAGGTTT      0.03248268
+## X10X_P7_3_AAACGGGAGTAGTGCG      0.04043129
+## X10X_P7_3_AAACGGGCACGACTCG      0.16444256
+## X10X_P7_3_AAACGGGGTAGCACGA      0.05185015
+## X10X_P7_3_AAAGATGCACTCGACG      0.14161777
+## X10X_P7_3_AAAGATGCATGGATGG      0.18882154
 ```
 
 ### The following 3 columns are added to metadata: 
@@ -164,9 +190,12 @@ head(comp_scores,2)
 ```
 
 ```
-##                            CytoTRACE      ccat CytoTRACE_invert ccat_invert
-## X10X_P7_3_AAACCTGAGCATCATC      2645 0.3818031        0.2281879   0.2388558
-## X10X_P7_3_AAACCTGCAGAGTGTG      1520 0.2712764        0.5564634   0.4591965
+##                            CytoTRACE      ccat CytoTRACE_invert
+## X10X_P7_3_AAACCTGAGCATCATC      2645 0.3818031        0.2281879
+## X10X_P7_3_AAACCTGCAGAGTGTG      1520 0.2712764        0.5564634
+##                            ccat_invert
+## X10X_P7_3_AAACCTGAGCATCATC   0.2388558
+## X10X_P7_3_AAACCTGCAGAGTGTG   0.4591965
 ```
 
 ```r
