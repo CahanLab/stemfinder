@@ -1,16 +1,16 @@
 ---
 title: "stemFinder vignette"
 author: "Kathleen Noller"
-date: "04/26/2023"
+date: "04/27/2023"
 output: github_document
-knit: (function(inputFile, encoding) {
-        Sys.setenv(RSTUDIO_PANDOC='/Applications/RStudio.app/Contents/MacOS/quarto/bin');
-        rmarkdown::render(inputFile,
-                        encoding=encoding, 
-                        output_file=file.path(dirname(inputFile), "README.md")) })
-                        
 ---
+# stemFinder
+### Estimation of single cell fate potency from scRNA-seq data
+# 
+# 
 ## Setup
+
+
 
 ```r
 #install.packages("devtools")
@@ -19,12 +19,13 @@ library(devtools)
 library(stemFinder, verbose = F)
 ```
 
-## Load example data - Mouse BMMC 10X dataset
+## Load example data - Bone marrow from Tabula Muris 
 
-#### Query data must have two metadata columns: Phenotype (string of cell type annotations) and Ground_truth (numeric, ascending ground truth potency values)
+##### Query data must have two metadata columns: 
+##### Phenotype (string of cell type annotations) and Ground_truth (numeric, ascending ground truth potency values)
 ###### Note: example data has already been filtered, normalized, and scaled
 
-[Query data: Murine bone marrow, 10X platform, available on S3](https://cnobjects.s3.amazonaws.com/stemFinder/MurineBoneMarrow10X_GSE109774.rds)
+[Download query data: Tabula Muris bone marrow, 10X platform](https://cnobjects.s3.amazonaws.com/stemFinder/MurineBoneMarrow10X_GSE109774.rds)
 
 
 ```r
@@ -44,7 +45,7 @@ head(adata,2)
 ## X10X_P7_3_AAACCTGCAGAGTGTG     24.03899 -0.1894597 -0.3641231    G1
 ```
 
-<img src="figure/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
+<img src="figure/stemFinder-unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" />
 
 ## Run stemFinder
 
@@ -55,8 +56,7 @@ adata <- RunPCA(adata, verbose = F)
 p1 <- ElbowPlot(adata, ndims = 50)
 ```
 
-<img src="figure/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
-[Elbow plot](https://github.com/pcahan1/stemfinder/blob/main/figures/unnamed-chunk-5-1.png)
+<img src="figure/stemFinder-unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 
 ```r
@@ -234,7 +234,7 @@ print(list_all_withcomp)
 p2 <- FeaturePlot(adata, features = c('Ground_truth','stemFinder_invert','CytoTRACE_invert','ccat_invert'), cols = c('blue','red'), ncol = 2)
 ```
 
-<img src="figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
+<img src="figure/stemFinder-unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
 ##### Box plot of stemFinder score
 
@@ -242,4 +242,4 @@ p2 <- FeaturePlot(adata, features = c('Ground_truth','stemFinder_invert','CytoTR
 p3 <- ggplot(adata@meta.data, aes(x = Ground_truth, y = stemFinder_invert)) + geom_point() + geom_boxplot(aes(group = Ground_truth, color = Ground_truth)) + theme_bw() + ggtitle("Inverted stemFinder potency vs. Ground truth potency") + ylab("Inverted stemFinder potency") + xlab("Ground truth potency")
 ```
 
-<img src="figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
+<img src="figure/stemFinder-unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
