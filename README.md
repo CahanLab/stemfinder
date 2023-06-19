@@ -1,7 +1,7 @@
 ---
 title: "stemFinder vignette"
 author: "Kathleen Noller"
-date: '`r paste("First created on Oct 01, 2018. Updated on", Sys.Date())`'
+date: 'June 19, 2023'
 output: github_document
 ---
 # stemFinder
