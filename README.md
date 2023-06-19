@@ -1,7 +1,7 @@
 ---
 title: "stemFinder vignette"
 author: "Kathleen Noller"
-date: "04/27/2023"
+date: "06/19/2023"
 output: github_document
 ---
 # stemFinder
@@ -10,12 +10,10 @@ output: github_document
 # 
 ## Setup
 
-
-
 ```r
-#install.packages("devtools")
+install.packages("devtools")
 library(devtools)
-#devtools::install_github("pcahan1/stemfinder")
+devtools::install_github("pcahan1/stemfinder")
 library(stemFinder, verbose = F)
 ```
 
