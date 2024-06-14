@@ -1,3 +1,18 @@
+# Kathleen Noller
+# katkats1@jh.edu
+
+#' Identify transcription factors with high Gini index in one phenotype-defined cluster and low Gini index in another phenotype-defined cluster
+#' Selects transcription factors that are differentially expressed in 1+ phenotype-defined clusters
+#' 
+#' @param adata Seurat object containing scaled gene expression matrix and metadata column with cell type annotations ("Phenotype") 
+#' @param lowthresh_tf lower value for quantile-based thresholding of TFs by Gini index
+#' @param highthresh_tf upper value for quantile-based thresholding of TFs by Gini index
+#' @param min.pct value for differential expression analysis in Seurat; minimum of fraction of cells expressing a given gene in a given cluster
+#' @param logfc.threshold value for DE analysis in Seurat; log fold change threshold
+#' 
+#' @return character vector of gene names meeting selected criteria
+#' 
+#' 
 find_key_tfs <- function(adata, TFs, lowthresh_tf = 0.4, highthresh_tf = 0.6, min.pct = 0.3, logfc.threshold = 0.5){
 
   markers = TFs[TFs %in% rownames(adata)]

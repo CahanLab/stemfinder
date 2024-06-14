@@ -11,9 +11,9 @@ URL: http://pcahan1.github.io/stemFinder
 Author: Patrick Cahan [aut, cre], Kathleen Noller [aut, cre]
 Maintainer: Kathleen Noller <katkats1@jhmi.edu>
 Imports:
-	dplyr,
-	MASS,
 	igraph,
-	Seurat,
 	ggplot2,
-	stats
+	Seurat,
+	stats,
+	Mass,
+	dplyr

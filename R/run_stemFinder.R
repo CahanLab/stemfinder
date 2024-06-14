@@ -1,3 +1,23 @@
+# Kathleen Noller (C) 2024
+# katkats1@jh.edu
+
+#' Compute stemFinder scores for a query scRNA-seq dataset
+#' 
+#' 
+#' 
+#' @param adata Seurat object containing normalized, log-transformed, and scaled gene expression data
+#' @param nn matrix of K-nearest neighbor assignments
+#' @param k number of neighbors identified per single cell
+#' @param thresh threshold value for binarizing scaled gene expression matrix 
+#' @param markers character vector with names of marker genes (cell cycle genes)
+#' 
+#' 
+#' @return Seurat object with three new metadata columns: 
+#' stemFinder: single-cell stemFinder score, where lower values correspond to relatively more differentiated cells in the query dataset
+#' stemFinder_invert: inverted stemFinder score, where lower values correspond to relatively less differentiated cells within the query dataset and vice versa
+#' stemFinder_comp: comparative stemFinder score, where lower values correspond to more differentiated cells and scores can be compared across different datasets
+#' 
+#' 
 run_stemFinder <-
 function(adata, nn = knn, k = k, thresh = 0, markers = markers){
   

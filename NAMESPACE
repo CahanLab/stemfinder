@@ -5,5 +5,5 @@ export(compute_performance_single)
 export(gene_set_score)
 export(process_cyto_adata)
 
-import(ggplot2, Seurat, dplyr, MASS, graph, stats)
+import(ggplot2, Seurat, MASS, igraph, stats, dplyr)
 

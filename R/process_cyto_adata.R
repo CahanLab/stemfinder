@@ -1,3 +1,18 @@
+# Kathleen Noller (C) 2024
+# katkats1@jh.edu
+
+#' Convert single-cell transcriptomic data from CytoTRACE website into format needed for running stemFinder
+#' Performs basic QC, filtering, normalization and log transformation, HVG identification, and scaling
+#' 
+#' @param adata Data downloaded from CytoTRACE, containing two slots: 'exprMatrix' (counts data, features x cells) and 'output' (metadata, which should contain UMAP coordinates)  
+#' @param mitotag string denoting prefix for mitochondrial genes
+#' @param ribotag string denoting prefix for ribosomal genes
+#' @param mtmax threshold value for quality control filtering by percent mitochondrial counts per cell
+#' @param s_genes character vector with names of S-phase cell cycle marker genes
+#' @param g2m_genes character vector with names of G2M-phase cell cycle marker genes
+#' 
+#' 
+#' @return Seurat object  
 process_cyto_adata <-
 function(adata, mitotag = "^mt-", ribotag = "^Rp[sl]", mtmax = mtmax, s_genes = s_genes, g2m_genes = g2m_genes) {
   
