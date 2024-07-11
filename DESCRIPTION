@@ -15,5 +15,5 @@ Imports:
 	ggplot2,
 	Seurat,
 	stats,
-	Mass,
+	MASS,
 	dplyr
