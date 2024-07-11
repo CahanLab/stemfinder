@@ -4,5 +4,9 @@ export(compute_performance_single)
 export(gene_set_score)
 export(process_cyto_adata)
 
-import(ggplot2, Seurat, MASS, igraph, stats, dplyr)
-
+import(ggplot2)
+import(MASS, except = select)
+import(igraph, except = c(spectrum, decompose, filter, lag, as_data_frame, union, groups))
+import(stats, except = filter) 
+import(dplyr)
+import(Seurat)
