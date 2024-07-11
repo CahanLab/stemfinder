@@ -3,11 +3,13 @@
 \title{Process datasets from CytoTRACE website}
 \description{Code to process datasets from CytoTRACE websites (as noted in Table 1)}
 \usage{
-adata = process_cyto_adata(adata, mitotag = "^mt-", ribotag = "^Rp[sl]", mtmax = mtmax, s_genes = s_genes, g2m_genes = g2m_genes)
+adata = process_cyto_adata(adata, id, mitotag = "^mt-", ribotag = "^Rp[sl]", mtmax = mtmax, s_genes = s_genes, g2m_genes = g2m_genes)
 }
 \arguments{
   \item{adata}{
 Downloaded .rds }
+  \item{id}{
+  string describing dataset}
   \item{mitotag}{
 string to find mitochondrial genes}
   \item{ribotag}{

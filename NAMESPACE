@@ -1,4 +1,3 @@
-export(find_key_tfs)
 export(pct_recover)
 export(run_stemFinder)
 export(compute_performance_single)

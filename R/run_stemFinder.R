@@ -15,7 +15,6 @@
 #' @return Seurat object with three new metadata columns: 
 #' stemFinder: single-cell stemFinder score, where lower values correspond to relatively more differentiated cells in the query dataset
 #' stemFinder_invert: inverted stemFinder score, where lower values correspond to relatively less differentiated cells within the query dataset and vice versa
-#' stemFinder_comp: comparative stemFinder score, where lower values correspond to more differentiated cells and scores can be compared across different datasets
 #' 
 #' 
 run_stemFinder <-
@@ -39,7 +38,6 @@ function(adata, nn = knn, k = k, thresh = 0, markers = markers){
   
   adata$stemFinder = gini_agg$gini_index_agg 
   adata$stemFinder_invert = 1 - (adata$stemFinder)/max(adata$stemFinder)
-  adata$stemFinder_comp = adata$stemFinder/length(markers) #can compare this score across datasets
-  
+
   return(adata)
 }

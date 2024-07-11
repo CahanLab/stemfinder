@@ -1,13 +1,13 @@
 Package: stemFinder
-Title: single-cell potency from single cell RNA-Seq data
+Title: single-cell differentiation time from scRNA-Seq data
 Version: 0.1.0
 Authors: Patrick Cahan, Kathleen Noller
-Description: Calculating single-cell potency from single-cell transcriptomic data
+Description: Calculating single-cell differentiation time from single-cell transcriptomic data
 Depends: R (>= 3.5.0), dplyr, MASS, Seurat, ggplot2, stats
 License: PRIVATE
 Encoding: UTF-8
 LazyData: true
-URL: http://pcahan1.github.io/stemFinder
+URL: https://github.com/cahanlab/stemfinder
 Author: Patrick Cahan [aut, cre], Kathleen Noller [aut, cre]
 Maintainer: Kathleen Noller <katkats1@jhmi.edu>
 Imports:

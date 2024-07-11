@@ -2,17 +2,15 @@
 \alias{compute_performance_single}
 \title{Quantify performance of stemFinder and optionally one competitor method}
 \description{
-Compute single-cell Spearman correlation, phenotypic Spearman correlation, and AUC for stemFinder results on a query dataset. Optionally compute same performance metrics on a competitor method's results (CytoTRACE or CCAT).}
+Compute single-cell Spearman correlation, phenotypic Spearman correlation, and AUC for stemFinder results on a query dataset. Optionally compute same performance metrics on a competitor method's results.}
 \usage{
-list_all = compute_performance_single(adata, competitor = T, comp_id = "CytoTRACE")
+list_all = compute_performance_single(adata, competitor = F)
 }
 \arguments{
   \item{adata}{
-Seurat object containing results of stemFinder metadata columns and optionally the results of a competitor method: CytoTRACE_invert or ccat_invert, and stemFinder_invert}
+Seurat object containing results of stemFinder metadata columns, ground truth differentiation degree, and optionally the results of a competitor method: stemFinder_invert, Ground_truth, and (optional) competitor_invert}
   \item{competitor}{
 Logical indicating whether the user wants to compute performance of a competitor method of potency calculation }
-  \item{comp_id}{
-String describing competitor method: "CytoTRACE" or "CCAT"}
 }
 
 \value{

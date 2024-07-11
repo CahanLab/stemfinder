@@ -2,7 +2,7 @@
 \alias{auc_probability}
 \title{AUC}
 \description{
-Compute AUC, or discrimination accuracy, of each potency calculator for distinguishing between most vs. least potent populations }
+Compute AUC, or discrimination accuracy, of each potency calculator for distinguishing between most vs. least differentiated populations }
 \usage{
 auc_probability(labels, scores, N = 1e+07)
 }

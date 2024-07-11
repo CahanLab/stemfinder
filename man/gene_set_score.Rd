@@ -2,7 +2,7 @@
 \alias{gene_set_score}
 \title{Mean expression of set of genes}
 \description{
-Computes percent highly potent cells (lowest Ground_truth value) with stemFinder_invert scores below a quantile-based threshold.}
+Computes mean expression of provided gene set}
 \usage{
 adata = gene_set_score(gene.set, adata)
 }

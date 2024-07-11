@@ -1,20 +1,22 @@
 # Kathleen Noller (C) 2024
 # katkats1@jh.edu
 
-#' Quantify stemFinder performance on a single scRNA-seq dataset versus ground truth extent of differentiation
+#' Quantify stemFinder performance on a single scRNA-seq dataset compared with ground truth differentiation time
 #' Optional: quantify performance of a competitor tool versus ground truth
+#' 
+#' Note that competitor method scores must be arranged so that the lowest score = the cell with highest "potency", however defined by competitor
 #'
 #' Comparisons are made using: single-cell Spearman correlation, AUC, and phenotypic Spearman correlation
 #' Single-cell Spearman correlation: correlation between single-cell values of ground truth vs. inverted score
 #' Phenotypic Spearman correlation: correlation between mean values of ground truth vs. inverted score per phenotype-defined cluster
 #' 
-#' @param adata Seurat object containing metadata with columns "Ground_truth" (numeric), "stemFinder_invert" (numeric), and "CytoTRACE_invert" or "ccat_invert" if competitor = T
+#' @param adata Seurat object containing metadata with columns "Ground_truth" (numeric), "stemFinder_invert" (numeric), and "competitor_invert" if competitor = T
 #' @param competitor logical denoting whether comparison between competitor method and ground truth is desired
-#' @param comp_id string denoting name of competitor method ('CytoTRACE' or 'CCAT') 
+#' 
 #' 
 #' @return list containing values from quantitative comparison for the query dataset
 #' 
-compute_performance_single <- function(adata, competitor = T, comp_id = "CytoTRACE"){
+compute_performance_single <- function(adata, competitor = F){
   
   #Single-cell Spearman correlation
   spear_all_sf = cor.test(x = adata$stemFinder_invert, y = adata$Ground_truth, method = "spearman", exact = F)$estimate
@@ -44,11 +46,8 @@ compute_performance_single <- function(adata, competitor = T, comp_id = "CytoTRA
   #Competitor performance
   
   if (competitor == T){ 
-    if (comp_id == 'CytoTRACE'){
-      comp_scores = adata[['CytoTRACE_invert']]
-    }else if (comp_id == 'CCAT'){
-      comp_scores = adata[['ccat_invert']]
-    }
+    comp_scores = adata[['competitor_invert']]
+ 
     spear_all_comp = cor.test(x = comp_scores[[1]], y = adata$Ground_truth, method = "spearman", exact = F)$estimate
     prediction.comp = c(comp_scores[rownames(mostpotent),], comp_scores[rownames(leastpotent),])
     auc_comp = auc_probability(category, prediction.comp)
