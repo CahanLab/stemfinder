@@ -8,9 +8,11 @@ list_all = compute_performance_single(adata, competitor = F)
 }
 \arguments{
   \item{adata}{
-Seurat object containing results of stemFinder metadata columns, ground truth differentiation degree, and optionally the results of a competitor method: stemFinder_invert, Ground_truth, and (optional) competitor_invert}
+Seurat object containing results of stemFinder metadata columns, ground truth differentiation degree, and optionally the results of a competitor method: stemFinder, Ground_truth, and (optional) competitor}
   \item{competitor}{
 Logical indicating whether the user wants to compute performance of a competitor method of potency calculation }
+  \item{comp.inverted}{
+Logical indicating if competitor scores are inverted to correspond to pseudotime}
 }
 
 \value{

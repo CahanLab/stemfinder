@@ -17,13 +17,13 @@ Numeric input to K nearest neighbors}
   \item{thresh}{
 Numeric threshold for binarizing gene expression matrix}
   \item{markers}{
-Character vector of gene names (default: S and G2M genes from Scanpy gene set scoring function)}
+Character vector of gene names found in query data (default: S and G2M genes from Scanpy gene set scoring function)}
 }
 
 \value{
 Returns adata containing 2 columns:
-1. stemFinder: raw score
-2. stemFinder_invert: inverted score, comparable to pseudotime (lowest score = lowest degree of differentiation or highest fate potential)
+1. stemFinder_raw: raw score
+2. stemFinder: inverted score, comparable to pseudotime (lowest score = lowest degree of differentiation or highest fate potential)
 }
 
 \author{

@@ -4,7 +4,7 @@
 #' Used to quantify the discrimination accuracy for distinguishing the most vs. least differentiated cells in the dataset
 #'
 #' @param labels numeric vector of ground truth differentiation state of most vs. least differentiated cells in dataset 
-#' @param scores numeric vector of inverted stemFinder (or other tool) scores for the cells in 'labels' 
+#' @param scores numeric vector of stemFinder (or other tool) scores for the cells in 'labels' 
 #' 
 #' @return area under the curve (AUC) ranging from 0 to 1
 #' 
