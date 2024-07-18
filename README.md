@@ -1,11 +1,11 @@
 stemFinder vignette
 ================
 Kathleen Noller
-06/14/2024
+07/11/2024
 
 # stemFinder
 
-### Single-cell estimation of the extent of differentiation from scRNA-seq data
+### Single-cell estimation of differentiation time from scRNA-seq data
 
 # 
 
@@ -20,17 +20,17 @@ install.packages("devtools")
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/hb/b7nzqfss2_l63s3qz23cqftr0000gp/T//RtmpKztfmS/downloaded_packages
+    ##  /var/folders/hb/b7nzqfss2_l63s3qz23cqftr0000gp/T//RtmpIbVf5b/downloaded_packages
 
 ``` r
-devtools::install_github("pcahan1/stemfinder")
+devtools::install_github("cahanlab/stemfinder")
 ```
 
-    ## Skipping install of 'stemFinder' from a github remote, the SHA1 (84b438e0) has not changed since last install.
+    ## Skipping install of 'stemFinder' from a github remote, the SHA1 (9b736ea8) has not changed since last install.
     ##   Use `force = TRUE` to force installation
 
 ``` r
-library(stemFinder, verbose = F)
+library(stemFinder)
 ```
 
     ## Loading required package: dplyr
@@ -70,18 +70,6 @@ library(stemFinder, verbose = F)
 
     ## Loading required package: ggplot2
 
-    ## Warning: replacing previous import 'dplyr::select' by 'MASS::select' when
-    ## loading 'stemFinder'
-
-    ## Warning: replacing previous import 'dplyr::union' by 'graph::union' when
-    ## loading 'stemFinder'
-
-    ## Warning: replacing previous import 'dplyr::lag' by 'stats::lag' when loading
-    ## 'stemFinder'
-
-    ## Warning: replacing previous import 'dplyr::filter' by 'stats::filter' when
-    ## loading 'stemFinder'
-
 ## Load query data - Bone marrow from Tabula Muris
 
 #### Query data should be a Seurat object containing a scaled single-cell gene expression matrix
@@ -115,7 +103,13 @@ head(adata,2)
 ## Prepare inputs to stemFinder
 
 ``` r
-#PCA
+# Select input cell cycle gene list
+      ## standard input to stemFinder: G2M and S cell cycle genes
+      ## G2M and S gene lists are provided for mouse, human, and C. elegans
+cell_cycle_genes = c(s_genes_mouse, g2m_genes_mouse)[c(s_genes_mouse, g2m_genes_mouse) %in% rownames(adata)] 
+VariableFeatures(adata) = VariableFeatures(adata)[!(VariableFeatures(adata) %in% cell_cycle_genes)] #make sure cell cycle genes are not among highly variable features
+
+# PCA
 adata <- RunPCA(adata, verbose = F)
 p1 <- ElbowPlot(adata, ndims = 50)
 ```
@@ -130,16 +124,13 @@ pcs = 32
 k = round(sqrt(ncol(adata))) #default value of k parameter
 adata = FindNeighbors(adata, dims = 1:pcs, k.param = k, verbose = F)
 knn = adata@graphs$RNA_nn #KNN matrix
-
-#Select input cell cycle marker gene list
-cell_cycle_genes = c(s_genes_mouse, g2m_genes_mouse)[c(s_genes_mouse, g2m_genes_mouse) %in% rownames(adata)] #default G2M + S cell cycle gene list
 ```
 
 ## Run stemFinder
 
 #### Inputs:
 
-##### adata: Seurat object containing scaled gene expression data (features x cells)
+##### adata: Seurat object containing log-normalized, scaled gene expression data (features x cells)
 
 ##### k: number of nearest neighbors
 
@@ -147,7 +138,7 @@ cell_cycle_genes = c(s_genes_mouse, g2m_genes_mouse)[c(s_genes_mouse, g2m_genes_
 
 ##### thresh: threshold for binarizing gene expression data (default = 0)
 
-##### markers: character vector of cell cycle gene names
+##### markers: character vector of cell cycle genes present in query data
 
 ``` r
 adata = run_stemFinder(adata, k = k, nn = knn, thresh = 0, markers = cell_cycle_genes)
@@ -167,26 +158,24 @@ head(adata,5)
     ## X10X_P7_3_AAACCTGGTCGAACAG Monocyte_progenitors            2          0
     ## X10X_P7_3_AAACCTGTCACTTCAT     Stem_Progenitors            1          0
     ## X10X_P7_3_AAACGGGAGAAGGTTT         Granulocytes            3          0
-    ##                            percent.ribo     S.Score  G2M.Score Phase stemFinder
-    ## X10X_P7_3_AAACCTGAGCATCATC    22.625827  0.33601275  0.3821197   G2M  17.450357
-    ## X10X_P7_3_AAACCTGCAGAGTGTG    24.038992 -0.18945969 -0.3641231    G1   5.141795
-    ## X10X_P7_3_AAACCTGGTCGAACAG    33.631885  0.30172632 -0.1413534     S  15.401308
-    ## X10X_P7_3_AAACCTGTCACTTCAT    33.104142 -0.01163238 -0.3062905    G1  18.712842
-    ## X10X_P7_3_AAACGGGAGAAGGTTT     2.537143 -0.15402552 -0.1239491    G1   2.988407
-    ##                            stemFinder_invert stemFinder_comp
-    ## X10X_P7_3_AAACCTGAGCATCATC         0.1417314      0.18967779
-    ## X10X_P7_3_AAACCTGCAGAGTGTG         0.7471088      0.05588908
-    ## X10X_P7_3_AAACCTGGTCGAACAG         0.2425106      0.16740552
-    ## X10X_P7_3_AAACCTGTCACTTCAT         0.0796380      0.20340045
-    ## X10X_P7_3_AAACGGGAGAAGGTTT         0.8530199      0.03248268
+    ##                            percent.ribo     S.Score  G2M.Score Phase
+    ## X10X_P7_3_AAACCTGAGCATCATC    22.625827  0.33601275  0.3821197   G2M
+    ## X10X_P7_3_AAACCTGCAGAGTGTG    24.038992 -0.18945969 -0.3641231    G1
+    ## X10X_P7_3_AAACCTGGTCGAACAG    33.631885  0.30172632 -0.1413534     S
+    ## X10X_P7_3_AAACCTGTCACTTCAT    33.104142 -0.01163238 -0.3062905    G1
+    ## X10X_P7_3_AAACGGGAGAAGGTTT     2.537143 -0.15402552 -0.1239491    G1
+    ##                            stemFinder_raw stemFinder
+    ## X10X_P7_3_AAACCTGAGCATCATC      18.654875 0.08664202
+    ## X10X_P7_3_AAACCTGCAGAGTGTG       5.315398 0.73975374
+    ## X10X_P7_3_AAACCTGGTCGAACAG      16.387931 0.19763346
+    ## X10X_P7_3_AAACCTGTCACTTCAT      19.251784 0.05741689
+    ## X10X_P7_3_AAACGGGAGAAGGTTT       2.994946 0.85336496
 
-### The following 3 columns are added to metadata:
+### The following 2 columns are added to metadata:
 
-##### -Raw stemFinder score (“stemFinder”)
+##### -Raw stemFinder score (“stemFinder_raw”)
 
-##### -Inverted stemFinder score, corresponding to pseudotime / ground truth (“stemFinder_invert”)
-
-##### -Comparable stemFinder score across datasets (“stemFinder_comp”)
+##### -stemFinder score with directionality corresponding to pseudotime / ground truth (“stemFinder”)
 
 [Check against previously-computed stemFinder results on this
 dataset](https://cnobjects.s3.amazonaws.com/stemFinder/bmmc_sF_results.csv)
@@ -196,12 +185,12 @@ sF_scores = read.csv("bmmc_sF_results.csv", row.names = 1)
 head(sF_scores,5)
 ```
 
-    ##                            stemFinder stemFinder_invert stemFinder_comp
-    ## X10X_P7_3_AAACCTGAGCATCATC  17.193335        0.15611517      0.18688408
-    ## X10X_P7_3_AAACCTGCAGAGTGTG   5.174950        0.74600265      0.05624945
-    ## X10X_P7_3_AAACCTGGTCGAACAG  15.202528        0.25382815      0.16524487
-    ## X10X_P7_3_AAACCTGTCACTTCAT  18.691755        0.08256958      0.20317125
-    ## X10X_P7_3_AAACGGGAGAAGGTTT   3.007756        0.85237303      0.03269300
+    ##                            stemFinder_raw stemFinder
+    ## X10X_P7_3_AAACCTGAGCATCATC      18.654875 0.08664202
+    ## X10X_P7_3_AAACCTGCAGAGTGTG       5.315398 0.73975374
+    ## X10X_P7_3_AAACCTGGTCGAACAG      16.387931 0.19763346
+    ## X10X_P7_3_AAACCTGTCACTTCAT      19.251784 0.05741689
+    ## X10X_P7_3_AAACGGGAGAAGGTTT       2.994946 0.85336496
 
 ## Quantify stemFinder performance relative to ground truth
 
@@ -218,8 +207,8 @@ list_all = compute_performance_single(adata, competitor = F)
 pct.recov = pct_recover(adata)
 ```
 
-    ## [1] "Percentage highly potent cells recovered by stemFinder: 82.9573934837093"
-    ## [1] "Relative abundance of highly potent cells: 11.6428362999708"
+    ## [1] "Percentage of cells with low degree of differentiation recovered by stemFinder: 84.7117794486216"
+    ## [1] "Relative abundance of cells with low degree of differentiation: 11.6428362999708"
 
 ## Optional: compare stemFinder performance to another method
 
@@ -238,9 +227,10 @@ head(comp_scores,2)
 
 ``` r
 adata@meta.data = cbind(adata@meta.data, comp_scores) #add to metadata
+adata$competitor = adata$ccat_invert #rename desired competitor column 
 
 #Quantify performance
-list_all_withcomp = compute_performance_single(adata, competitor = T, comp_id = 'CytoTRACE') 
+list_all_withcomp = compute_performance_single(adata, competitor = T, comp.inverted = T)
 ```
 
     ## [1] "Single-cell Spearman Correlation, stemFinder: 0.74"
@@ -253,26 +243,26 @@ print(list_all_withcomp)
 
     ## $`stemFinder results`
     ## Spearman_SingleCell      Spearman_Pheno                 AUC 
-    ##           0.7362893           0.8866655           0.9698956 
+    ##           0.7428144           0.8883756           0.9724200 
     ## 
     ## $`Competitor results`
     ## Spearman_SingleCell      Spearman_Pheno                 AUC 
-    ##           0.5712992           0.6307109           0.8847005
+    ##           0.6755672           0.7783368           0.9298890
 
 ## Visualize stemFinder and competitor results
 
-##### UMAP embedding
+##### Feature plot
 
 ``` r
-p2 <- FeaturePlot(adata, features = c('Ground_truth','stemFinder_invert','CytoTRACE_invert','ccat_invert'), cols = c('blue','red'), ncol = 2)
+p2 <- FeaturePlot(adata, features = c('Ground_truth','stemFinder','competitor'), cols = c('blue','red'), ncol = 3)
 ```
 
 <img src="figure/stemFinder-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
-##### Box plot of inverted stemFinder score
+##### Box plot
 
 ``` r
-p3 <- ggplot(adata@meta.data, aes(x = Ground_truth, y = stemFinder_invert)) + geom_point() + geom_boxplot(aes(group = Ground_truth, color = Ground_truth)) + theme_bw() + ggtitle("Inverted stemFinder score vs. Ground truth") + ylab("Inverted stemFinder score") + xlab("Ground truth")
+p3 <- ggplot(adata@meta.data, aes(x = Ground_truth, y = stemFinder)) + geom_point() + geom_boxplot(aes(group = Ground_truth, color = Ground_truth)) + theme_bw() + ggtitle("stemFinder score vs. Ground truth") + ylab("stemFinder score") + xlab("Ground truth")
 ```
 
 <img src="figure/stemFinder-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
