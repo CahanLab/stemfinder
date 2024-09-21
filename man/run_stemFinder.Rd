@@ -20,7 +20,6 @@ Numeric threshold for binarizing gene expression matrix}
 Character vector of gene names found in query data (default: S and G2M genes from Scanpy gene set scoring function)}
   \item{method}{
 String denoting method of quantifying gene expression heterogeneity (default: 'gini', other: 'stdev' or 'variance')}
-  }
 }
 
 \value{
