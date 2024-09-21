@@ -20,13 +20,13 @@ install.packages("devtools")
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/hb/b7nzqfss2_l63s3qz23cqftr0000gp/T//RtmpIbVf5b/downloaded_packages
+    ##  /var/folders/hb/b7nzqfss2_l63s3qz23cqftr0000gp/T//Rtmpa5pZ4q/downloaded_packages
 
 ``` r
 devtools::install_github("cahanlab/stemfinder")
 ```
 
-    ## Skipping install of 'stemFinder' from a github remote, the SHA1 (9b736ea8) has not changed since last install.
+    ## Skipping install of 'stemFinder' from a github remote, the SHA1 (83a451f7) has not changed since last install.
     ##   Use `force = TRUE` to force installation
 
 ``` r
@@ -57,22 +57,13 @@ library(stemFinder)
 
     ## Loading required package: Seurat
 
-    ## Loading required package: SeuratObject
-
-    ## Loading required package: sp
-
-    ## 
-    ## Attaching package: 'SeuratObject'
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, t
+    ## Attaching SeuratObject
 
     ## Loading required package: ggplot2
 
 ## Load query data - Bone marrow from Tabula Muris
 
-#### Query data should be a Seurat object containing a scaled single-cell gene expression matrix
+#### Query data should be a Seurat object containing a log-normalized, scaled single-cell gene expression matrix
 
 #### Query data must have two metadata columns:
 
@@ -140,8 +131,10 @@ knn = adata@graphs$RNA_nn #KNN matrix
 
 ##### markers: character vector of cell cycle genes present in query data
 
+##### method: string denoting which method of computing gene expression heterogeneity to use (default: ‘gini’, other: ‘stdev’ and ‘variance’)
+
 ``` r
-adata = run_stemFinder(adata, k = k, nn = knn, thresh = 0, markers = cell_cycle_genes)
+adata = run_stemFinder(adata, k = k, nn = knn, thresh = 0, markers = cell_cycle_genes, method = 'gini')
 
 head(adata,5) 
 ```
